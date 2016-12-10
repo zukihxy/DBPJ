@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="../css/teacher.css">
+        <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+
+    </head>
+    <body>
+        <div id="content">
+            <p class="navbar-text navbar-right-me">
+                <span id="info_id" class="info">id</span><span id="info_name" class="info">name</span><a id="log_out">log out</a>
+            </p>
+
+            <div id="main">
+                <div class="teacher_content"  id="left_div">
+                    <div class="list-group" id="function_list">
+                        <a href="#" class="list-group-item active">Add user</a>
+                        <a href="#" class="list-group-item">Delete user</a>
+                        <a href="#" class="list-group-item">Update uset</a>
+                        <a href="#" class="list-group-item">Search employee by id</a>
+                    </div>
+                </div>
+                <div id="right_div" class="teacher_content">
+                    <p id="hello">
+                        Hello! Welcome to the system!
+                    </p>
+                    <div class="inner" id="search_form">
+                        <div class="input-group">
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">ID<span class="caret"></span></button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#">ID</a></li>
+                                    <li><a href="#">Name</a></li>
+                                </ul>
+                            </div><!-- /btn-group -->
+                            <input type="text" class="form-control-me">
+                            <button type="button" class="btn btn-default" id="search_btn">Search</button>
+                        </div><!-- /input-group -->
+                    </div>
+                    <div class="inner" id="add_delete_table">
+                        <table class="table" id="table_empinfo">
+                            <tr>
+                                <th>id</th>
+                                <th>name</th>
+                                <th>other</th>
+                                <th>   </th>
+                            </tr>
+                            <tr>
+                                <td>111id</td>
+                                <td>111name</td>
+                                <td>111other</td>
+                                <td><span class="glyphicon glyphicon-minus delete_user"></span></td>
+                            </tr>
+                            <tr>
+                                <td>111id</td>
+                                <td>111name</td>
+                                <td>111other</td>
+                                <td><span class="glyphicon glyphicon-minus delete_user"></span></td>
+                            </tr>
+                        </table>
+                        <span class="glyphicon glyphicon-plus" id="add_user"></span>
+                    </div>
+                    <div class="inner" id="submit_table">
+                        <span class="glyphicon glyphicon-ok" id="submit_user"></span>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
