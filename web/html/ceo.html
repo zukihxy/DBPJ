@@ -9,9 +9,9 @@ and open the template in the editor.
         <title>Trainning System</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" type="text/css" href="../css/teacher.css">
-        <link rel="stylesheet" type="text/css" href="../css/common.css">
+        <link rel="stylesheet" type="text/css" href="../css/admin.css">
         <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="../css/common.css">
     </head>
     <body>
         <div id="content">
@@ -22,46 +22,58 @@ and open the template in the editor.
             <div id="main">
                 <div class="wrapper_div"  id="left_div">
                     <div class="list-group" id="function_list">
-                        <a href="#" class="list-group-item active">Offer course</a>
-                        <a href="#" class="list-group-item">Delete course</a>
-                        <a href="#" class="list-group-item">Upload score</a>
-                        <a href="#" class="list-group-item">Update score</a>
-                        <a href="#" class="list-group-item">Approve retest</a>
+                        <a href="#" class="list-group-item active">Employee info</a>
+                        <a href="#" class="list-group-item">Chief info</a>
+                        <a href="#" class="list-group-item">Course info</a>
+                        <a href="#" class="list-group-item">Teacher info</a>
                     </div>
                 </div>
                 <div id="right_div" class="wrapper_div">
                     <p id="hello">
                         Hello! Welcome to the system!
                     </p>
+                    <div class="inner" id="search_form">
+                        <div class="input-group">
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">ID<span class="caret"></span></button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#">ID</a></li>
+                                    <li><a href="#">Name</a></li>
+                                </ul>
+                            </div><!-- /btn-group -->
+                            <input type="text" class="form-control-me">
+                            <button type="button" class="btn btn-default" id="search_btn">Search</button>
+                        </div><!-- /input-group -->
+                    </div>
                     <div class="inner" id="add_delete_table">
-                        <table class="table" id="table_courseinfo">
+                        <table class="table" id="table_empinfo">
                             <tr>
-                                <th>course name</th>
-                                <th>total time</th>
+                                <th>id</th>
+                                <th>name</th>
+                                <th>other</th>
                                 <th>   </th>
                             </tr>
                             <tr>
                                 <td>111id</td>
                                 <td>111name</td>
+                                <td>111other</td>
                                 <td><span class="glyphicon glyphicon-minus table_icon"></span></td>
                             </tr>
                             <tr>
                                 <td>111id</td>
                                 <td>111name</td>
+                                <td>111other</td>
                                 <td><span class="glyphicon glyphicon-minus table_icon"></span></td>
                             </tr>
                             <tr>
                                 <td><input type="text" /></td>
                                 <td><input type="text" /></td>
-                                <td><span class="glyphicon glyphicon-plus table_icon" id="add_icon"></span></td>
+                                <td><input type="text" /></td>
+                                <td><span class="glyphicon glyphicon-plus table_icon" id="add_user"></span></td>
                             </tr>
                         </table>
                         
-                    </div>
-                    <div class="inner" id="submit_table">
-                        <span class="glyphicon glyphicon-ok" id="submit_icon"></span>
-                    </div>
-                    
+                    </div>                    
                 </div>
             </div>
         </div>
