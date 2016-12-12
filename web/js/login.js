@@ -5,22 +5,26 @@
  */
 $(document).ready(function() {
     $("#log_in").click(function() {
-        var name = $("#username").val();
+        var id = $("#user_id").val();
         var pass = $("#password").val();
-        if (name == "" | pass == "") {
+        if (id == "" | pass == "") {
             alert("Please fill all the blanks.");
             window.location="login.html";
         }
-        $.post("../login", {username: name, password: pass}, function (data) {
-            if (data != "0") {
-                alert(data);
+        $.post("../Login", {id: id, password: pass}, function (data) {
+            if (data.success == "0") {
+                alert(data.message);
                 window.location="login.html";
             } else {
-                $.cookie("username",null);
-                $.cookie("username",name,{path:"/"});
-                $.cookie("password",pass,{path:"/"});
+                $.cookie("id",null);
+                $.cookie("type",null);
+                $.cookie("id",id,{path:"/"});
+                $.cookie("type",data.type,{path:"/"});
+                if (data.type == "admin")
+                    $.cookie("new",data.new,{path:"/"});
+                window.location = data.type+".html";
             }
-        });
+        },"json");
     });
 });
 
