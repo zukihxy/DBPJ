@@ -55,10 +55,16 @@ public class Delete extends HttpServlet {
 		try {
 			Statement statement = connection.getConnection().createStatement();
 			if (type.equals("user")){
-				query = "DELETE FROM person WHERE person_id='" + id +"'";
-				if(statement.executeUpdate(query) != 0)
-					result.put("message", "Success!");
-				else result.put("message", "Fail in deleting!");
+				if(request.getCookies()[0].getValue().equals(id)){
+					result.put("message", "You can't delete yourself!");
+				}
+				else{
+					query = "DELETE FROM person WHERE person_id='" + id +"'";
+					if(statement.executeUpdate(query) != 0)
+						result.put("message", "Success!");
+					else result.put("message", "Fail in deleting!");
+				}
+				
 			}
 				
 			if (type.equals("employee")){
@@ -75,7 +81,7 @@ public class Delete extends HttpServlet {
 					query = "SELECT * FROM employee WHERE person_id='" + id +"'";
 					ResultSet rs2 = statement.executeQuery(query);
 					if (!rs2.next()){
-						query = "SELECT user_type FROM employee WHERE person_id='" + id +"'";
+						query = "SELECT user_type FROM person WHERE person_id='" + id +"'";
 						ResultSet rs3 = statement.executeQuery(query);
 						if (rs3.next()){
 							if(rs3.getString("user_type").equals("delete")) success = "Success!";
@@ -118,7 +124,7 @@ public class Delete extends HttpServlet {
 					}
 				}
 				
-				else {
+				else if(user_type.equals("employee")){
 					query = "DELETE FROM attend WHERE course_id='" + id +"' AND employee_id='"+ cookies[0].getValue() +"'";
 					if(statement.executeUpdate(query) != 0)
 						result.put("message", "Success!");

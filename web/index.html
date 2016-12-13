@@ -12,18 +12,48 @@ and open the template in the editor.
         <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
     </head>
     <body>
-        <div class="inner" id="search_form">
-            <div class="input-group">
-                <div class="input-group-btn open">
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">ID<span class="caret"></span></button>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">ID</a></li>
-                        <li><a href="#">Name</a></li>
-                    </ul>
-                </div><!-- /btn-group -->
-                <input type="text" class="form-control-me">
-                <button type="button" class="btn btn-default" id="search_btn">Search</button>
-            </div><!-- /input-group -->
+        <div class="inner" id="add_delete_table">
+            <table class="table" id="table_empinfo">
+                <tr>
+                <td>afda</td>
+                <td>werq</td>
+                <td>zcxvz</td>
+                <td>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="optionsRadios" value="option1" checked>
+                            Option one is this and that&mdash;be sure to include why it's great
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="optionsRadios" value="option2">
+                            Option two can be something else and selecting it will deselect option one
+                        </label>
+                    </div>
+                </td>
+                </tr>
+                <tr>
+                <td>afda</td>
+                <td>werq</td>
+                <td>zcxvz</td>
+                <td>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="options" value="op1" checked>
+                            Option 
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="options" value="op2">
+                            Option two 
+                        </label>
+                    </div>
+                </td>
+                </tr>
+            </table>
+            <button type="button" id="submit">Submit</button>
         </div>
         <script type="text/javascript" src="js/jquery.js"></script>
         <script type="text/javascript" src="js/jquery.cookie.js"></script>

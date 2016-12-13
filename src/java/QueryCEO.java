@@ -53,9 +53,7 @@ public class QueryCEO extends HttpServlet {
 			String query;
 			if (key.equals("all")) {
 				if (type.equals("teacher")) queryTeacher(statement, "", result);
-				else if (type.equals("course")) {
-					
-				}
+				else if (type.equals("course")) queryCourse(statement, "SELECT * FROM course", result, false);
 				else if (type.equals("employee")) queryEmployee(statement, "", result );
 				else queryChief(statement, "", result );
 			}
@@ -63,18 +61,14 @@ public class QueryCEO extends HttpServlet {
 				String name = request.getParameter("name");
 				if (type.equals("teacher")) queryTeacher(statement, " WHERE name='" + name + "'", result);
 				else if (type.equals("employee")) queryEmployee(statement, "WHERE name='" + name + "'", result);
-				else if (type.equals("course")){
-					
-				}
+				else if (type.equals("course")) queryCourse(statement, "SELECT * FROM course WHERE course_name='" + name + "'", result, false);
 				else queryChief(statement, "WHERE name='" + name + "'", result);
 			}
 			else{
 				String id = request.getParameter("id");
                 if (type.equals("teacher")) queryTeacher(statement, " WHERE person_id='" + id + "'", result);
 				else if (type.equals("employee")) queryEmployee(statement, "WHERE person_id='" + id + "'", result);
-				else if (type.equals("course")){
-					
-				}
+				else if (type.equals("course")) queryCourse(statement, "SELECT * FROM course,attend WHERE course.course_id=attend.course_id AND course.course_id='" + id + "'", result, false);
 				else queryChief(statement, "WHERE person_id='" + id + "'", result);
 			}
 		} catch (SQLException e) {
@@ -167,18 +161,39 @@ public class QueryCEO extends HttpServlet {
 		}	
 	}
 	
-	private void queryCourse(Statement statement, String constraint, JSONObject result) throws SQLException, JSONException{
-		String query = "SELECT * FROM course" + constraint;
+	private void queryCourse(Statement statement, String query, JSONObject result, boolean isID) throws SQLException, JSONException{
 		ResultSet rs = statement.executeQuery(query);
 		JSONArray array = new JSONArray();
-		while (rs.next()){
-			JSONObject item = new JSONObject();
-			item.put("course_id", rs.getString("course_id"));
-			item.put("name", rs.getString("course_name"));
-			item.put("total_time", rs.getString("total_time"));
-			array.put(item);
+		boolean success = false;
+		if (!isID){
+			while (rs.next()){
+				success = true;
+				JSONObject item = new JSONObject();
+				item.put("course_id", rs.getString("course_id"));
+				item.put("name", rs.getString("course_name"));
+				item.put("total_time", rs.getString("total_time"));
+				array.put(item);
+			}
 		}
-		result.put("result", "1");
-		result.put("users", array);
+		else{
+			while (rs.next()){
+				success = true;
+				JSONObject item = new JSONObject();
+				item.put("course_id", rs.getString("course_id"));
+				item.put("name", rs.getString("course_name"));
+				item.put("total_time", rs.getString("total_time"));
+				item.put("employee_id",rs.getString("employee_id"));
+				item.put("score", rs.getString("score"));
+				array.put(item);
+			}
+		}
+		if (success) {
+			result.put("result", "1");
+			result.put("users", array);
+		}
+		else {
+			result.put("result", "0");
+			result.put("error", "Fail in searching");
+		}	
 	}
 }

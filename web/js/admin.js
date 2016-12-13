@@ -128,7 +128,7 @@ $(document).ready(function () {
         func = "add";
         var app = "<tr id=\"tr_header\"><th>id</th><th>password</th><th>type</th><th>      </th></tr>";
         app += "<tr><td><input type=\"text\" /><td><input type=\"text\" /></td>"
-                + "<td><input type=\"text\" /></td><td><span class=\"glyphicon glyphicon-plus table_icon\" title=\"add one more\"></span></td></tr></tr>"
+                + "<td><input type=\"text\" /></td><td><span class=\"glyphicon glyphicon-plus table_icon\" title=\"add one more\"></span></td></tr>";
         $("#table_empinfo").append(app);
         $("#add_delete_table").show();
         $("#hello").hide();
@@ -142,8 +142,6 @@ $(document).ready(function () {
                 app = "<tr><td><input type=\"text\" value=\"" + id + "\"></td><td><input type=\"text\" value=\""
                         + pass + "\"></td><td><input type=\"text\" value=\"" + type + "\"></td><td></td></tr>";
                 $(this).parent().parent().before(app);
-                $(this).parent().siblings().children().eq(0).text("");
-                $(this).parent().siblings().children().eq(1).text("");
             }
         });
     });

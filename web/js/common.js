@@ -18,14 +18,15 @@ function removeActive() {
     });
 }
 
-//function dropDown(chosen) {
-//    $("button.btn.btn-default.dropdown-toggle").click(function () {
-//        if ($(chosen).attr("class") == "input-group-btn")
-//            $(chosen).attr("class", "input-group-btn open");
-//        else
-//            $(chosen).attr("class", "input-group-btn");
-//    });
-//    $(chosen+" ul.dropdown-menu[role=menu] li").click(function () {
-//        $("button.btn.btn-default.dropdown-toggle").text($(this).children("a").eq(0).text());
-//    });
-//}
+function dropDown() {
+    $("button.dropdown-toggle").click(function () {
+        if ($("div.input-group-btn").attr("class") == "input-group-btn")
+            $("div.input-group-btn").attr("class", "input-group-btn open");
+        else
+            $("div.input-group-btn").attr("class", "input-group-btn");
+    });
+    $("div.input-group-btn ul.dropdown-menu[role=menu] li").click(function () {
+        $("button.dropdown-toggle").html($(this).children("a").eq(0).text()+" <span class=\"caret\"></span>");
+        $("div.input-group-btn").attr("class", "input-group-btn");
+    });
+}
