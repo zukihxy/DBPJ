@@ -16,8 +16,8 @@ $(document).ready(function () {
         var app = "<tr><th>id</th><th>password</th><th>operation</th></tr>";
         $.post("../LoadNewUser", {}, function (data) {
             for (var user in data) {
-                app += "<tr><td><input type=\"text\" value=\"" + user.id + "\" /><td><input type=\"text\" value=\"" + user.password;
-                if (data.type == "add")
+                app += "<tr><td><input type=\"text\" data-type=\""+user.type+"\"value=\"" + user.id + "\" /><td><input type=\"text\" value=\"" + user.password;
+                if (user.type == "add")
                     app += "\" /><td><span class=\"glyphicon glyphicon-plus table_icon\" title=\"To be added\"></span></td></tr>";
                 else
                     app += "\" /><td><span class=\"glyphicon glyphicon-remove table_icon\" title=\"To be deleted\"></span></td></tr>";
@@ -87,7 +87,9 @@ $(document).ready(function () {
 
         if (func == "update") {
             $("span.glyphicon-ok-sign").each(function () {
-                $.post("../UpdateUser", {}, function (data) {
+                var id = $(this).parent().siblings().children("input").eq(0).val();
+                var pass = $(this).parent().siblings().children("input").eq(1).val();
+                $.post("../UpdateUser", {id:id,password:pass}, function (data) {
                     alert(data);
                 }, "json");
             });
@@ -96,14 +98,13 @@ $(document).ready(function () {
 
     $("#submit_icon").click(function () {
         var array = "[";
-        $("#table_empinfo tr").each(function () {
-            $(this).parent().parent()
-            array += "{id:\"" + $(this).val() + "\", type: },";
+        $("#table_empinfo td:even").each(function () {
+            array += "{id:\"" + $(this).val() + "\", type: \""+$(this).data("type")+"\"},";
         });
         array = array.substr(0, array.length - 1);
         array += "]";
         $.post("../AdmitNewUser", {users: array}, function (data) {
-            alert(data);
+            alert(data.message);
         }, "json");
     });
 });
