@@ -63,7 +63,20 @@ and open the template in the editor.
                             <tr>
                                 <td>111id</td>
                                 <td>111name</td>
-                                <td>111other</td>
+                                <td>
+                                    <div class="btn-group open">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                            Employee <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li><a href="#">Employee</a></li>
+                                            <li><a href="#">Another action</a></li>
+                                            <li><a href="#">Something else here</a></li>
+                                            <li class="divider"></li>
+                                            <li><a href="#">Separated link</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
                                 <td><span class="glyphicon glyphicon-minus table_icon"></span></td>
                             </tr>
                             <tr>
@@ -73,12 +86,12 @@ and open the template in the editor.
                                 <td><span class="glyphicon glyphicon-plus table_icon" id="add_user"></span></td>
                             </tr>
                         </table>
-                        
+
                     </div>
                     <div class="inner" id="submit_table">
                         <span class="glyphicon glyphicon-ok" id="submit_icon"></span>
                     </div>
-                    
+
                 </div>
             </div>
         </div>

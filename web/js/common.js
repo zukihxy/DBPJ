@@ -17,3 +17,15 @@ function removeActive() {
             $(this).attr("class", "list-group-item");
     });
 }
+
+//function dropDown(chosen) {
+//    $("button.btn.btn-default.dropdown-toggle").click(function () {
+//        if ($(chosen).attr("class") == "input-group-btn")
+//            $(chosen).attr("class", "input-group-btn open");
+//        else
+//            $(chosen).attr("class", "input-group-btn");
+//    });
+//    $(chosen+" ul.dropdown-menu[role=menu] li").click(function () {
+//        $("button.btn.btn-default.dropdown-toggle").text($(this).children("a").eq(0).text());
+//    });
+//}

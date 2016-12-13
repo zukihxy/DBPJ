@@ -12,10 +12,21 @@ and open the template in the editor.
         <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
     </head>
     <body>
-        <input type="text" id="test" value="fadsfae"/>
-        <button id="submit" value="submit">Submit</button>
+        <div class="inner" id="search_form">
+            <div class="input-group">
+                <div class="input-group-btn open">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">ID<span class="caret"></span></button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">ID</a></li>
+                        <li><a href="#">Name</a></li>
+                    </ul>
+                </div><!-- /btn-group -->
+                <input type="text" class="form-control-me">
+                <button type="button" class="btn btn-default" id="search_btn">Search</button>
+            </div><!-- /input-group -->
+        </div>
         <script type="text/javascript" src="js/jquery.js"></script>
-        <script type="text/javascript" src="js/jquerySession.js"></script>
-        <script type="text/javascript" src="blog_list.js"></script>
+        <script type="text/javascript" src="js/jquery.cookie.js"></script>
+        <script type="text/javascript" src="js/common.js"></script>
     </body>
 </html>

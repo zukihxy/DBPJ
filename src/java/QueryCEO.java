@@ -1,0 +1,184 @@
+
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+/**
+ * Servlet implementation class QueryCEO
+ */
+@WebServlet("/QueryCEO")
+public class QueryCEO extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public QueryCEO() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		DBConnection connection = new DBConnection();
+		PrintWriter out = response.getWriter();
+		String key = request.getParameter("key");
+		String type = request.getParameter("type");
+		JSONObject result = new JSONObject();
+		try {
+			Statement statement = connection.getConnection().createStatement();
+			String query;
+			if (key.equals("all")) {
+				if (type.equals("teacher")) queryTeacher(statement, "", result);
+				else if (type.equals("course")) {
+					
+				}
+				else if (type.equals("employee")) queryEmployee(statement, "", result );
+				else queryChief(statement, "", result );
+			}
+			else if (key.equals("name")){
+				String name = request.getParameter("name");
+				if (type.equals("teacher")) queryTeacher(statement, " WHERE name='" + name + "'", result);
+				else if (type.equals("employee")) queryEmployee(statement, "WHERE name='" + name + "'", result);
+				else if (type.equals("course")){
+					
+				}
+				else queryChief(statement, "WHERE name='" + name + "'", result);
+			}
+			else{
+				String id = request.getParameter("id");
+                if (type.equals("teacher")) queryTeacher(statement, " WHERE person_id='" + id + "'", result);
+				else if (type.equals("employee")) queryEmployee(statement, "WHERE person_id='" + id + "'", result);
+				else if (type.equals("course")){
+					
+				}
+				else queryChief(statement, "WHERE person_id='" + id + "'", result);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String query;
+	}
+	
+	private void queryTeacher(Statement statement, String constraint, JSONObject result) throws SQLException, JSONException{
+		String query = "SELECT * FROM teacher" + constraint;
+		ResultSet rs = statement.executeQuery(query);
+		JSONArray array = new JSONArray();
+		boolean success = false;
+		while (rs.next()){
+			success = true;
+			JSONObject item = new JSONObject();
+			item.put("person_id", rs.getString("person_id"));
+			item.put("name", rs.getString("name"));
+			item.put("email", rs.getString("email"));
+			item.put("phone", rs.getString("phone"));
+			item.put("sex", rs.getString("sex"));
+			array.put(item);
+		}
+		if (success) {
+			result.put("result", "1");
+			result.put("users", array);
+		}
+		else {
+			result.put("result", "0");
+			result.put("error", "Fail in searching");
+		}		
+	}
+	
+	private void queryEmployee(Statement statement, String constraint, JSONObject result) throws SQLException, JSONException {
+		String query = "SELECT * FROM employee" + constraint;
+		ResultSet rs = statement.executeQuery(query);
+		JSONArray array = new JSONArray();
+		boolean success = false;
+		while (rs.next()){
+			success = true;
+			JSONObject item = new JSONObject();
+			item.put("person_id", rs.getString("person_id"));
+			item.put("name", rs.getString("name"));
+			item.put("sex", rs.getString("sex"));
+			item.put("salary", rs.getInt("salary"));
+			item.put("addition", rs.getFloat("addition"));
+			item.put("work_addr", rs.getString("work_addr"));
+			item.put("work_age", rs.getInt("work_age"));
+			item.put("department", rs.getString("department"));
+			array.put(item);
+		}
+		if (success) {
+			result.put("result", "1");
+			result.put("users", array);
+		}
+		else {
+			result.put("result", "0");
+			result.put("error", "Fail in searching");
+		}		
+	}
+	
+	private void queryChief(Statement statement, String constraint, JSONObject result) throws SQLException, JSONException{
+		String query = "SELECT * FROM chief" + constraint;
+		ResultSet rs = statement.executeQuery(query);
+		JSONArray array = new JSONArray();
+		boolean success = false;
+		while (rs.next()){
+			success = true;
+			JSONObject item = new JSONObject();
+			item.put("person_id", rs.getString("person_id"));
+			item.put("name", rs.getString("name"));
+			item.put("sex", rs.getString("sex"));
+			item.put("phone", rs.getFloat("phone"));
+			item.put("department", rs.getString("department"));
+			item.put("email", rs.getInt("email"));
+			item.put("work_addr", rs.getString("work_addr"));
+			array.put(item);
+		}
+		if (success) {
+			result.put("result", "1");
+			result.put("users", array);
+		}
+		else {
+			result.put("result", "0");
+			result.put("error", "Fail in searching");
+		}	
+	}
+	
+	private void queryCourse(Statement statement, String constraint, JSONObject result) throws SQLException, JSONException{
+		String query = "SELECT * FROM course" + constraint;
+		ResultSet rs = statement.executeQuery(query);
+		JSONArray array = new JSONArray();
+		while (rs.next()){
+			JSONObject item = new JSONObject();
+			item.put("course_id", rs.getString("course_id"));
+			item.put("name", rs.getString("course_name"));
+			item.put("total_time", rs.getString("total_time"));
+			array.put(item);
+		}
+		result.put("result", "1");
+		result.put("users", array);
+	}
+}

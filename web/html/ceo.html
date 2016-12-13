@@ -22,10 +22,10 @@ and open the template in the editor.
             <div id="main">
                 <div class="wrapper_div"  id="left_div">
                     <div class="list-group" id="function_list">
-                        <a href="#" class="list-group-item active">Employee info</a>
-                        <a href="#" class="list-group-item">Chief info</a>
-                        <a href="#" class="list-group-item">Course info</a>
-                        <a href="#" class="list-group-item">Teacher info</a>
+                        <a class="list-group-item" data-type="employee">Employee info</a>
+                        <a class="list-group-item" data-type="chief">Chief info</a>
+                        <a class="list-group-item" data-type="course">Course info</a>
+                        <a class="list-group-item" data-type="teacher">Teacher info</a>
                     </div>
                 </div>
                 <div id="right_div" class="wrapper_div">
@@ -35,10 +35,11 @@ and open the template in the editor.
                     <div class="inner" id="search_form">
                         <div class="input-group">
                             <div class="input-group-btn" id="search_dropdown">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">ID<span class="caret"></span></button>
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">All<span class="caret"></span></button>
                                 <ul class="dropdown-menu" role="menu">
-                                    <li><a href="#">ID</a></li>
-                                    <li><a href="#">Name</a></li>
+                                    <li><a data-type="all">All</a></li>
+                                    <li><a data-type="id">ID</a></li>
+                                    <li><a data-type="Department" id="department">Department</a></li>
                                 </ul>
                             </div><!-- /btn-group -->
                             <input type="text" class="form-control-me">
@@ -47,7 +48,7 @@ and open the template in the editor.
                     </div>
                     <div class="inner" id="add_delete_table">
                         <table class="table" id="table_empinfo">
-                            <tr>
+<!--                            <tr>
                                 <th>id</th>
                                 <th>name</th>
                                 <th>other</th>
@@ -64,13 +65,7 @@ and open the template in the editor.
                                 <td>111name</td>
                                 <td>111other</td>
                                 <td><span class="glyphicon glyphicon-minus table_icon"></span></td>
-                            </tr>
-                            <tr>
-                                <td><input type="text" /></td>
-                                <td><input type="text" /></td>
-                                <td><input type="text" /></td>
-                                <td><span class="glyphicon glyphicon-plus table_icon" id="add_user"></span></td>
-                            </tr>
+                            </tr>-->
                         </table>
 
                     </div>                    
