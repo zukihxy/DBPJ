@@ -2,7 +2,6 @@
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -17,16 +16,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Servlet implementation class ApplyRetest
+ * Servlet implementation class ChangePassword
  */
-@WebServlet("/ApplyRetest")
-public class ApplyRetest extends HttpServlet {
+@WebServlet("/ChangePassword")
+public class ChangePassword extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ApplyRetest() {
+    public ChangePassword() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -45,34 +44,29 @@ public class ApplyRetest extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		DBConnection connection = new DBConnection();
 		PrintWriter out = response.getWriter();
-		String courses = request.getParameter("courses");
-		Cookie[] cookies = request.getCookies();
+		String password = request.getParameter("password");
 		JSONObject result = new JSONObject();
+		Cookie[] cookies = request.getCookies();
 		String userid = "";
 		for (Cookie cookie: cookies){
 			if(cookie.getName().equals("id")){
 				userid = cookie.getValue();
 			}
 		}
+		
 		try {
 			Statement statement = connection.getConnection().createStatement();
-			String query ; 
-			JSONObject item = new JSONObject(courses);
-			query = "UPDATE attend SET permit_retest=" + true + " WHERE course_id='" + item.getString("course_id") + "' AND employee_id='" + userid + "'";
-			if (statement.executeUpdate(query) == 0)
- 				result.put("message",  "Fail!");
- 			else 
- 				result.put("message",  "Succeed!");
+			String query = "UPDATE person SET password='" + password + "' WHERE person_id='" + userid + "'";
+			if (statement.executeUpdate(query) == 0) result.put("message", "Fail!");
+			else result.put("message", "Succeed!");
 			out.print(result);
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		
-		
 	}
 
 }

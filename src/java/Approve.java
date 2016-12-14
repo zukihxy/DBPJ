@@ -2,31 +2,30 @@
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Servlet implementation class ApplyRetest
+ * Servlet implementation class Approve
  */
-@WebServlet("/ApplyRetest")
-public class ApplyRetest extends HttpServlet {
+@WebServlet("/Approve")
+public class Approve extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ApplyRetest() {
+    public Approve() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -45,24 +44,31 @@ public class ApplyRetest extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		DBConnection connection = new DBConnection();
 		PrintWriter out = response.getWriter();
-		String courses = request.getParameter("courses");
-		Cookie[] cookies = request.getCookies();
+		String application = request.getParameter("application");
 		JSONObject result = new JSONObject();
-		String userid = "";
-		for (Cookie cookie: cookies){
-			if(cookie.getName().equals("id")){
-				userid = cookie.getValue();
-			}
-		}
 		try {
+			JSONArray array = new JSONArray(application);
 			Statement statement = connection.getConnection().createStatement();
-			String query ; 
-			JSONObject item = new JSONObject(courses);
-			query = "UPDATE attend SET permit_retest=" + true + " WHERE course_id='" + item.getString("course_id") + "' AND employee_id='" + userid + "'";
-			if (statement.executeUpdate(query) == 0)
- 				result.put("message",  "Fail!");
- 			else 
- 				result.put("message",  "Succeed!");
+			String query;
+			int len = array.length();
+			boolean success = true;
+			String message = "";
+			for (int i = 0; i < len; i++){
+				JSONObject item = array.getJSONObject(i);
+				query = "UPDATE attend SET permit_retest=" + true + " WHERE course_id='" + item.getString("course_id") + "' AND employee_id='" + item.getString("employee_id") + "'";
+				if (statement.executeUpdate(query) == 0){
+					success = false;
+					message += "Fail in updateing the score of " + item.getString("employee_id") + "\n";
+				}
+			}
+			if (success) {
+				result.put("result", "1");
+				result.put("message", "succeed");
+			}
+			else {
+				result.put("result", "0");
+				result.put("message", message);
+			}
 			out.print(result);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
@@ -71,8 +77,6 @@ public class ApplyRetest extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
 	}
 
 }

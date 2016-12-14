@@ -24,8 +24,8 @@ and open the template in the editor.
                     <div class="list-group" id="function_list">
                         <a href="#" class="list-group-item" id="offer_list">Offer course</a>
                         <a href="#" class="list-group-item" id="delete_list">Delete course</a>
-                        <a href="#" class="list-group-item" id="upload_list">Upload score</a>
-                        <a href="#" class="list-group-item" id="update_list">Update score</a>
+                        <a href="#" class="list-group-item" id="upload_list" data-func="upload">Upload score</a>
+                        <a href="#" class="list-group-item" id="update_list" data-func="update">Update score</a>
                         <a href="#" class="list-group-item" id="approve_list">Approve retest</a>
                         <a href="#" class="list-group-item" id="passwd_list">Change password</a>
                     </div>
@@ -34,17 +34,27 @@ and open the template in the editor.
                     <p id="hello">
                         Hello! Welcome to the system!
                     </p>
+                    <div class="inner" id="search_form">
+                        <div class="input-group">
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Course id</button>
+                            </div><!-- /btn-group -->
+                            <input type="text" class="form-control-me" id="search_input">
+                            <button type="button" class="btn btn-default" id="search_btn">Submit</button>
+                        </div><!-- /input-group -->
+                    </div>
                     <div class="inner" id="add_delete_table">
-                        <table class="table" id="table_courseinfo">
+                        <table class="table" id="table_empinfo">
                         </table>
                     </div>
                     <div class="inner" id="submit_table">
                         <span class="glyphicon glyphicon-ok" id="submit_icon"></span>
                     </div>
+
                     <div class="inner" id="passwd_form">
                         <div class="input-group">
                             <div class="input-group-btn">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">New password </button>
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">New password</button>
                             </div><!-- /btn-group -->
                             <input type="text" class="form-control-me" id="passwd_input">
                             <button type="button" class="btn btn-default" id="passwd_btn">Submit</button>

@@ -1,5 +1,4 @@
 
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.ResultSet;
@@ -13,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Cookie;
 
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,27 +22,31 @@ import org.json.JSONObject;
 @WebServlet("/QueryChief")
 public class QueryChief extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public QueryChief() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public QueryChief() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		DBConnection connection = new DBConnection();
 		PrintWriter out = response.getWriter();
 		String type = request.getParameter("type");
@@ -55,15 +57,16 @@ public class QueryChief extends HttpServlet {
 			String query;
 			Cookie[] cookies = request.getCookies();
 			String userid = "";
-			for (Cookie cookie: cookies){
-				if(cookie.getName().equals("id")){
+			for (Cookie cookie : cookies) {
+				if (cookie.getName().equals("id")) {
 					userid = cookie.getValue();
 				}
 			}
-			query = "SELECT department FROM chief WHERE person_id='" + userid + "'"; 
+			query = "SELECT department FROM chief WHERE person_id='" + userid + "'";
 			ResultSet rs = statement.executeQuery(query);
 			String department = "";
-			if (rs.next()) department = rs.getString("department");
+			if (rs.next())
+				department = rs.getString("department");
 			if (type.equals("course")) {
 				query = "SELECT * FROM course, teacher, offer WHERE course.course_id=offer.course_id AND teacher.person_id=offer.teacher_id";
 				ResultSet rs1 = statement.executeQuery(query);
@@ -76,31 +79,31 @@ public class QueryChief extends HttpServlet {
 					array.put(item);
 				}
 				int len = array.length();
-				for (int i = 0; i < len; i++){
-					query = "SELECT mandatory FROM plan WHERE course_id='" + array.getJSONObject(i).getString("course_id") + "' AND department='" + department + "'";
+				for (int i = 0; i < len; i++) {
+					query = "SELECT mandatory FROM plan WHERE course_id='"
+							+ array.getJSONObject(i).getString("course_id") + "' AND department='" + department + "'";
 					ResultSet rs2 = statement.executeQuery(query);
-					if (rs2.next()){
-						if(rs2.getBoolean("mandatory")) array.getJSONObject(i).put("mandatory", "true");
-						else array.getJSONObject(i).put("mandatory", "false");
-					}
-					else array.getJSONObject(i).put("mandatory", "null");
+					if (rs2.next()) {
+						if (rs2.getBoolean("mandatory"))
+							array.getJSONObject(i).put("mandatory", "true");
+						else
+							array.getJSONObject(i).put("mandatory", "false");
+					} else
+						array.getJSONObject(i).put("mandatory", "null");
 				}
 				result.put("result", "1");
 				result.put("course", array);
-			}
-			else if (type.equals("employee")) {
+			} else if (type.equals("employee")) {
 				String key = request.getParameter("key");
-				if (key.equals("ID")){
+				if (key.equals("ID")) {
 					String id = request.getParameter("id");
 					query = "SELECT * FROM employee WHERE person_id='" + id + "' AND department='" + department + "'";
-				}
-                                else if (key.equals("Name")){
+				} else if (key.equals("Name")) {
 					String name = request.getParameter("id");
 					query = "SELECT * FROM employee WHERE name='" + name + "' AND department='" + department + "'";
+				} else {
+					query = "SELECT * FROM employee WHERE department='" + department + "'";
 				}
-				else {
-                                    query = "SELECT * FROM employee WHERE department='" + department + "'";
-                                }
 				ResultSet rs1 = statement.executeQuery(query);
 				while (rs1.next()) {
 					JSONObject item = new JSONObject();
@@ -114,20 +117,25 @@ public class QueryChief extends HttpServlet {
 					array.put(item);
 				}
 				result.put("result", "1");
-                                result.put("key",key);
-				result.put("users", array);	
-			}
-			else {
+				result.put("key", key);
+				result.put("users", array);
+			} else {
 				String id = request.getParameter("id");
-				query = "SELECT * FROM course,attend,employee WHERE course.course_id=attend.course_id AND employee.person_id=attend.employee_id AND employee.person_id='" + id + "' AND department='" + department + "'";
+				query = "SELECT * FROM course,attend,employee WHERE course.course_id=attend.course_id AND employee.person_id=attend.employee_id AND employee.person_id='"
+						+ id + "' AND department='" + department + "'";
 				ResultSet rs1 = statement.executeQuery(query);
-				while (rs1.next()){
+				while (rs1.next()) {
 					JSONObject item = new JSONObject();
 					item.put("course_id", rs1.getString("course_id"));
 					item.put("course_name", rs1.getString("course_name"));
-                                        if (rs1.getInt("exam_times")==0)
-                                            item.put("score", "no score");
-                                        else item.put("score", rs1.getString("score"));
+					if (rs1.getInt("exam_times") == 0)
+						item.put("score", "no score");
+					else {
+						if (rs.getBoolean("pass"))
+							item.put("score", "pass");
+						else
+							item.put("score", "fail");
+					}
 					array.put(item);
 				}
 				result.put("result", "1");

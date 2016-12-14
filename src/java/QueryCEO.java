@@ -196,8 +196,12 @@ public class QueryCEO extends HttpServlet {
                 item.put("total_time", rs.getString("total_time"));
                 item.put("employee_id", rs.getString("employee_id"));
                 if (rs.getInt("exam_times") == 0)
-                   item.put("score", "no score yet"); 
-                else item.put("score", rs.getString("score"));
+                    item.put("score", "no score yet"); 
+                else {
+                	if (rs.getBoolean("pass"))
+                		item.put("score", "pass");
+                	else item.put("score", "fail");
+                }
                 array.put(item);
             }
             if (!success) {

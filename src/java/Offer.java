@@ -18,16 +18,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Servlet implementation class AddEmployee
+ * Servlet implementation class Offer
  */
-@WebServlet("/AddEmployee")
-public class AddEmployee extends HttpServlet {
+@WebServlet("/Offer")
+public class Offer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AddEmployee() {
+    public Offer() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -47,83 +47,81 @@ public class AddEmployee extends HttpServlet {
 		// TODO Auto-generated method stub
 		DBConnection connection = new DBConnection();
 		PrintWriter out = response.getWriter();
-		String users = request.getParameter("users");
-		JSONObject result = new JSONObject();
+		String courses = request.getParameter("courses");
 		Cookie[] cookies = request.getCookies();
+		JSONObject result = new JSONObject();
 		String userid = "";
 		for (Cookie cookie: cookies){
 			if(cookie.getName().equals("id")){
 				userid = cookie.getValue();
 			}
 		}
-		
 		try {
 			Statement statement = connection.getConnection().createStatement();
-			JSONArray array = new JSONArray(users);
-			int len = array.length();
+			JSONArray array = new JSONArray(courses);
+			String query ;
+			String query2;
+			int index = 0;
 			boolean success = true;
 			String message = "";
-			String query = "SELECT department FROM chief WHERE person_id='" + userid + "'"; 
-			String query2 = "";
-			ResultSet rs = statement.executeQuery(query);
-			String department = "";
-			if (rs.next()) department = rs.getString("department");
-			
-			int index = 0;
-			while(true){
-                            if (index < len) {
+                        int len = array.length();
+			while (true) {
+                            if(index < len){
 				JSONObject item = array.getJSONObject(index++);
-				String query1 = "SELECT * FROM employee WHERE person_id='" + item.getString("id") + "'";
+				String query1 = "SELECT * FROM course WHERE course_id='" + item.getString("course_id") + "'";
 				ResultSet rs1 = statement.executeQuery(query1);
 				if (!rs1.next()) {
-					query = "INSERT INTO employee VALUES ('" + item.getString("id") + "', '" + item.getString("name") + "', '" + item.getString("sex") + "', '" + item.getString("salary") + "', '" + item.getString("addition") + "', '" + item.getString("work_addr") + "', '" + item.getString("work_age") + "', '" + department + "')";
-					query2 = "INSERT INTO person VALUES ('" + item.getString("id") + "','0000','add')";
+					query = "INSERT INTO course (course_id,course_name,is_in_plan,total_time) VALUES ('" + item.getString("course_id") + "', '" + item.getString("course_name") + "', " + false + ", '" + item.getString("total_time") + "')";
+					query2 = "INSERT INTO offer VALUES ('" + item.getString("course_id") + "','" + userid +"')";
 					break;
 				}
 				else {
 					success = false;
-					message += "Fail in adding employee " + item.getString("id") + ", as the id has been used \n";
+					message += "Fail in adding course " + item.getString("course_id") + ", as the id has been used \n";
 				}
                             }
                             else {
                                 success = false;
-					message += "Fail in adding employee as the id has been used \n";
+                                message += "Fail in adding course as the id has been used \n";
                             }
 			}
 			
 			
 			for (int i = index; i < len; i++){
 				JSONObject item = array.getJSONObject(i);
-				String query1 = "SELECT * FROM employee WHERE person_id='" + item.getString("id") + "'";
+				String query1 = "SELECT * FROM course WHERE course_id='" + item.getString("course_id") + "'";
 				ResultSet rs1 = statement.executeQuery(query1);
-				if (!rs1.next()){
-					query += ",('" + item.getString("id") + "', '" + item.getString("name") + "', '" + item.getString("sex") + "', '" + item.getString("salary") + "', '" + item.getString("addition") + "', '" + item.getString("work_addr") + "', '" + item.getString("work_age") + "', '" + department + "')";
-					query2 += ",('" + item.getString("id") + "','0000','add')";
+				if (!rs1.next()) {
+					query += ",('" + item.getString("course_id") + "', '" + item.getString("course_name") + "', " + false + ", '" + item.getString("total_time") + "')";
+					query2 += ",('" + item.getString("course_id") + "','" + userid +"')";
+					break;
 				}
 				else {
 					success = false;
-					message += "Fail in adding employee " + item.getString("id") + ", as the id has been used \n";
+					message += "Fail in adding course " + item.getString("course_id") + ", as the id has been used \n";
 				}
 				
 			}
-			if (statement.executeUpdate(query2) == 0){
+			if (statement.executeUpdate(query) == 0){
 				success = false;
-				message += "Fail in adding users ";
+				message += "Fail in adding courses ";
 			}
-			else if (statement.executeUpdate(query) == 0){
+			else if (statement.executeUpdate(query2) == 0){
 				success = false;
-				message += "Fail in adding users ";
+				message += "Fail in adding courses ";
 			}
 			if (success) message = "succeed";
 			result.put("message", message);
 			out.print(result);
+			
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
+		
 		
 	}
 

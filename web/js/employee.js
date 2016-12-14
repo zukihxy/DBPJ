@@ -76,6 +76,7 @@ $(document).ready(function () {
     $("#apply_list").click(function () {
         $("#right_div div").hide();
         removeActive();
+        $("#payment").show();
         $(this).attr("class", "list-group-item active");
         $("#table_empinfo").empty();
         var app = "<tr><th>course id</th><th>score</th></tr>";
@@ -96,6 +97,7 @@ $(document).ready(function () {
                 $(this).text("Applied");
                 $.post("../ApplyRetest", {course_id: $(this).data("id")}, function (data) {
                     alert(data.message);
+                    $("span.glyphicon-usd").text(data.pay);
                 }, "json");
             });
         }, "json");
