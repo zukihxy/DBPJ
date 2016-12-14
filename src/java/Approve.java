@@ -1,5 +1,4 @@
 
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -20,8 +19,9 @@ import org.json.JSONObject;
  */
 @WebServlet("/Approve")
 public class Approve extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
+
+    private static final long serialVersionUID = 1L;
+
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -30,53 +30,50 @@ public class Approve extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
+    /**
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+     * response)
+     */
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // TODO Auto-generated method stub
+        response.getWriter().append("Served at: ").append(request.getContextPath());
+    }
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		DBConnection connection = new DBConnection();
-		PrintWriter out = response.getWriter();
-		String application = request.getParameter("application");
-		JSONObject result = new JSONObject();
-		try {
-			JSONArray array = new JSONArray(application);
-			Statement statement = connection.getConnection().createStatement();
-			String query;
-			int len = array.length();
-			boolean success = true;
-			String message = "";
-			for (int i = 0; i < len; i++){
-				JSONObject item = array.getJSONObject(i);
-				query = "UPDATE attend SET permit_retest=" + true + " WHERE course_id='" + item.getString("course_id") + "' AND employee_id='" + item.getString("employee_id") + "'";
-				if (statement.executeUpdate(query) == 0){
-					success = false;
-					message += "Fail in updateing the score of " + item.getString("employee_id") + "\n";
-				}
-			}
-			if (success) {
-				result.put("result", "1");
-				result.put("message", "succeed");
-			}
-			else {
-				result.put("result", "0");
-				result.put("message", message);
-			}
-			out.print(result);
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+    /**
+     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+     * response)
+     */
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        DBConnection connection = new DBConnection();
+        PrintWriter out = response.getWriter();
+        String course_id = request.getParameter("course_id");
+        String employee_id = request.getParameter("employee_id");
+        JSONObject result = new JSONObject();
+        try {
+            Statement statement = connection.getConnection().createStatement();
+            String query;
+            boolean success = true;
+            String message = "";
+            query = "UPDATE attend SET permit_retest=" + true + " WHERE course_id='" + course_id + "' AND employee_id='" + employee_id + "'";
+            if (statement.executeUpdate(query) == 0) {
+                success = false;
+                message += "Fail in updateing the score of " + employee_id + "\n";
+            }
+            if (success) {
+                result.put("result", "1");
+                result.put("message", "succeed");
+            } else {
+                result.put("result", "0");
+                result.put("message", message);
+            }
+            out.print(result);
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 
 }

@@ -83,6 +83,9 @@ public class Offer extends HttpServlet {
                             else {
                                 success = false;
                                 message += "Fail in adding course as the id has been used \n";
+                                result.put("message", message);
+			out.print(result);
+                        return;
                             }
 			}
 			

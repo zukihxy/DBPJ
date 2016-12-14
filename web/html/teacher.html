@@ -34,23 +34,6 @@ and open the template in the editor.
                     <p id="hello">
                         Hello! Welcome to the system!
                     </p>
-                    <div class="inner" id="search_form">
-                        <div class="input-group">
-                            <div class="input-group-btn">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Course id</button>
-                            </div><!-- /btn-group -->
-                            <input type="text" class="form-control-me" id="search_input">
-                            <button type="button" class="btn btn-default" id="search_btn">Submit</button>
-                        </div><!-- /input-group -->
-                    </div>
-                    <div class="inner" id="add_delete_table">
-                        <table class="table" id="table_empinfo">
-                        </table>
-                    </div>
-                    <div class="inner" id="submit_table">
-                        <span class="glyphicon glyphicon-ok" id="submit_icon"></span>
-                    </div>
-
                     <div class="inner" id="passwd_form">
                         <div class="input-group">
                             <div class="input-group-btn">
@@ -60,12 +43,36 @@ and open the template in the editor.
                             <button type="button" class="btn btn-default" id="passwd_btn">Submit</button>
                         </div><!-- /input-group -->
                     </div>
+                    <div class="inner" id="search_form">
+                        <div class="input-group">
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Course id</button>
+                            </div><!-- /btn-group -->
+                            <input type="text" class="form-control-me" id="search_cid">
+                        </div><!-- /input-group -->
+                        <div class="input-group">
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Employee id</button>
+                            </div><!-- /btn-group -->
+                            <input type="text" class="form-control-me" id="search_eid">
+                            <button type="button" class="btn btn-default" id="search_btn">Submit</button>
+                        </div><!-- /input-group -->
+                    </div><!-- /input-group -->
+                <div class="inner" id="add_delete_table">
+                    <table class="table" id="table_empinfo">
+                    </table>
                 </div>
+                <div class="inner" id="submit_table">
+                    <span class="glyphicon glyphicon-ok" id="submit_icon"></span>
+                </div>
+
+
             </div>
         </div>
-        <script type="text/javascript" src="../js/jquery.js"></script>
-        <script type="text/javascript" src="../js/jquery.cookie.js"></script>
-        <script type="text/javascript" src="../js/common.js"></script>
-        <script type="text/javascript" src="../js/teacher.js"></script>
-    </body>
+    </div>
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <script type="text/javascript" src="../js/jquery.cookie.js"></script>
+    <script type="text/javascript" src="../js/common.js"></script>
+    <script type="text/javascript" src="../js/teacher.js"></script>
+</body>
 </html>

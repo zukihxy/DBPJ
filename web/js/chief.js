@@ -140,7 +140,7 @@ $(document).ready(function () {
             app = "<tr id=\"tr_header\"><th>course id</th><th>course name</th>"
                     + "<th>score</th></tr>";
             $("#table_empinfo").append(app);
-            $.post("../QueryChief", {id: $("#search_input").val(), key: $("button.dropdown-toggle").text(), type: "choose"},
+            $.post("../QueryChief", {id: $("#search_input").val(), key: $("#key_btn").text(), type: "choose"},
             function (data) {
                 if (data.result == "1") {
                     for (i in data.course) {

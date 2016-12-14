@@ -93,7 +93,7 @@ public class Delete extends HttpServlet {
 			
 			if (type.equals("course")) {
 				if (user_type.equals("teacher")){
-					query = "SELECT is_in_plan FROM course WHERE course_id'" + id + "'";
+					query = "SELECT is_in_plan FROM course WHERE course_id='" + id + "'";
 					ResultSet rs = statement.executeQuery(query);
 					if (rs.next()){
 						if (rs.getBoolean("is_in_plan"))

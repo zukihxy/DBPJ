@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 var func = "";
+var money = 0;
 $(document).ready(function () {
     replaceInfo();
     changePass();
@@ -83,8 +84,9 @@ $(document).ready(function () {
         $("#table_empinfo").append(app);
         $.post("../QueryEmployee", {type: "score"}, function (data) {
             for (i in data.courses) {
-                var c = data.users[i];
+                var c = data.courses[i];
                 if (c.need_retest == "true") {
+                    money = c.money;
                     app = "<tr><td>" + c.course_id + "</td><td>" + c.score + "</td><td>"
                             + "<td><span class=\"glyphicon glyphicon-repeat table_icon\" data-id=\"" + c.course_id
                             + "\" title=\"apply retest\"></span></td></tr>";
@@ -92,13 +94,20 @@ $(document).ready(function () {
                 }
             }
             $("span.glyphicon-repeat").each(function () {
-                $(this).attr("class", "");
-                $(this).attr("title", "");
-                $(this).text("Applied");
-                $.post("../ApplyRetest", {course_id: $(this).data("id")}, function (data) {
-                    alert(data.message);
-                    $("span.glyphicon-usd").text(data.pay);
-                }, "json");
+                $(this).click(function () {
+                    $(this).attr("class", "");
+                    $(this).attr("title", "");
+                    $(this).text("Applied");
+                    var ele = $(this);
+                    $.post("../ApplyRetest", {course_id: $(this).data("id")}, function (data) {
+                        alert(data.message);                        
+                        var amount = parseInt($("#pay_icon").text()) + money;
+                        $("#pay_icon").text(amount);
+                        if (data.message == "Success!") {
+                            ele.parent().parent().remove();
+                        }
+                    }, "json");
+                });
             });
         }, "json");
         $("#add_delete_table").show();

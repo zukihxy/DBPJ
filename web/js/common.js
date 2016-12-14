@@ -33,14 +33,17 @@ function dropDown() {
 
 function changePass() {
     $("#passwd_list").click(function() {
+        removeActive();
+        $("#add_delete_table").empty();
         $(this).attr("class", "list-group-item active");
-        $("#rignt_div div,p").hide();
+        $("#rignt_div div").hide();
+        $("#hello").hide();
         $("#passwd_form").show();
         $("#passwd_form div").show();
         $("#passwd_btn").click(function() {
             var newpass = $("#passwd_input").val();
             $.post("../ChangePassword", {password: newpass}, function(data){
-                alert(data);
+                alert(data.message);
             }, "json");
         })
     });

@@ -119,7 +119,7 @@ public class QueryEmployee extends HttpServlet {
 					item.put("course_id", rs1.getString("course.course_id"));
 					item.put("course_name", rs1.getString("course_name"));
 					if (rs1.getInt("exam_times") == 1 && !rs1.getBoolean("pass") && !rs1.getBoolean("apply_retest")){
-						int money = calculateMoney(rs.getDate("score_date"));
+						int money = calculateMoney(rs1.getDate("score_date"));
 						if (money != -1){
 							item.put("need_retest", "true");
 							item.put("money", money);
@@ -132,9 +132,9 @@ public class QueryEmployee extends HttpServlet {
 						item.put("need_retest", "false");
 					if (rs1.getInt("exam_times") > 0) {
 						if (rs1.getBoolean("pass"))
-							item.put("score", "true");
+							item.put("score", "pass");
 						else
-							item.put("score", "false");
+							item.put("score", "fail");
 					} else {
 						item.put("score", "no score yet");
 						item.put("pass", "no score yet");

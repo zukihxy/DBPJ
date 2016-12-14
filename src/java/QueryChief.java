@@ -131,7 +131,7 @@ public class QueryChief extends HttpServlet {
 					if (rs1.getInt("exam_times") == 0)
 						item.put("score", "no score");
 					else {
-						if (rs.getBoolean("pass"))
+						if (rs1.getBoolean("pass"))
 							item.put("score", "pass");
 						else
 							item.put("score", "fail");

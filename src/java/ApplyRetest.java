@@ -45,7 +45,7 @@ public class ApplyRetest extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		DBConnection connection = new DBConnection();
 		PrintWriter out = response.getWriter();
-		String courses = request.getParameter("courses");
+		String course = request.getParameter("course_id");
 		Cookie[] cookies = request.getCookies();
 		JSONObject result = new JSONObject();
 		String userid = "";
@@ -57,8 +57,7 @@ public class ApplyRetest extends HttpServlet {
 		try {
 			Statement statement = connection.getConnection().createStatement();
 			String query ; 
-			JSONObject item = new JSONObject(courses);
-			query = "UPDATE attend SET permit_retest=" + true + " WHERE course_id='" + item.getString("course_id") + "' AND employee_id='" + userid + "'";
+			query = "UPDATE attend SET apply_retest=" + true + " WHERE course_id='" + course + "' AND employee_id='" + userid + "'";
 			if (statement.executeUpdate(query) == 0)
  				result.put("message",  "Fail!");
  			else 
