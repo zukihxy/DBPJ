@@ -26,6 +26,7 @@ and open the template in the editor.
                         <a class="list-group-item" data-type="chief">Chief info</a>
                         <a class="list-group-item" data-type="course">Course info</a>
                         <a class="list-group-item" data-type="teacher">Teacher info</a>
+                        <a href="#" class="list-group-item" id="passwd_list">Change password</a>
                     </div>
                 </div>
                 <div id="right_div" class="wrapper_div">
@@ -34,43 +35,38 @@ and open the template in the editor.
                     </p>
                     <div class="inner" id="search_form">
                         <div class="input-group">
-                            <div class="input-group-btn" id="search_dropdown">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">All<span class="caret"></span></button>
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" id="s_btn">ID<span class="caret"></span></button>
                                 <ul class="dropdown-menu" role="menu">
-                                    <li><a data-type="all">All</a></li>
-                                    <li><a data-type="id">ID</a></li>
-                                    <li><a data-type="Department" id="department">Department</a></li>
+                                    <li><a href="#">ID</a></li>
+                                    <li><a href="#">Name</a></li>
+                                    <li><a href="#">All</a></li>
                                 </ul>
                             </div><!-- /btn-group -->
-                            <input type="text" class="form-control-me">
+                            <input type="text" class="form-control-me" id="search_input">
                             <button type="button" class="btn btn-default" id="search_btn">Search</button>
                         </div><!-- /input-group -->
                     </div>
                     <div class="inner" id="add_delete_table">
                         <table class="table" id="table_empinfo">
-<!--                            <tr>
-                                <th>id</th>
-                                <th>name</th>
-                                <th>other</th>
-                                <th>   </th>
-                            </tr>
-                            <tr>
-                                <td>111id</td>
-                                <td>111name</td>
-                                <td>111other</td>
-                                <td><span class="glyphicon glyphicon-minus table_icon"></span></td>
-                            </tr>
-                            <tr>
-                                <td>111id</td>
-                                <td>111name</td>
-                                <td>111other</td>
-                                <td><span class="glyphicon glyphicon-minus table_icon"></span></td>
-                            </tr>-->
                         </table>
 
-                    </div>                    
+                    </div>  
+                    <div class="inner" id="passwd_form">
+                        <div class="input-group">
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" id="p_btn">New password </button>
+                            </div><!-- /btn-group -->
+                            <input type="text" class="form-control-me" id="passwd_input">
+                            <button type="button" class="btn btn-default" id="passwd_btn">Submit</button>
+                        </div><!-- /input-group -->
+                    </div>
                 </div>
             </div>
         </div>
+        <script type="text/javascript" src="../js/jquery.js"></script>
+        <script type="text/javascript" src="../js/jquery.cookie.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+        <script type="text/javascript" src="../js/ceo.js"></script>
     </body>
 </html>

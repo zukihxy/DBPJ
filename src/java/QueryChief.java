@@ -125,7 +125,9 @@ public class QueryChief extends HttpServlet {
 					JSONObject item = new JSONObject();
 					item.put("course_id", rs1.getString("course_id"));
 					item.put("course_name", rs1.getString("course_name"));
-					item.put("score", rs1.getString("score"));
+                                        if (rs1.getInt("exam_times")==0)
+                                            item.put("score", "no score");
+                                        else item.put("score", rs1.getString("score"));
 					array.put(item);
 				}
 				result.put("result", "1");

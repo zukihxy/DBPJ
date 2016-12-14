@@ -7,6 +7,7 @@ var func = "";
 $(document).ready(function () {
     replaceInfo();
     dropDown();
+    changePass();
     $("#right_div div").hide();
 
     $("#make_plan_list").click(function () {
@@ -24,9 +25,9 @@ $(document).ready(function () {
                 for (i in data.course) {
                     var c = data.course[i];
                     app = "<tr><td>" + c.course_id + "</td><td>" + c.course_name + "</td><td>" + c.total_time + "</td><td>" + c.teacher_name + "</td>";
-                    app += "<td><div class=\"radio\"><label><input type=\"radio\" name=\"optionsRadios\" value=\"mandatory\">mandatory"
-                            + "</label></div><div class=\"radio\"><label><input type=\"radio\" name=\"optionsRadios\" value=\"elective\">elective</label>"
-                            + "</div><div class=\"radio\"><label><input type=\"radio\" name=\"optionsRadios\" value=\"un\">not chosen"
+                    app += "<td><div class=\"radio\"><label><input type=\"radio\" name=\"optionsRadios"+i+"\" value=\"mandatory\">mandatory"
+                            + "</label></div><div class=\"radio\"><label><input type=\"radio\" name=\"optionsRadios"+i+"\" value=\"elective\">elective</label>"
+                            + "</div><div class=\"radio\"><label><input type=\"radio\" name=\"optionsRadios"+i+"\" value=\"un\">not chosen"
                             + "</label></div></td></tr>";
                     $("#table_empinfo").append(app);
                 }
@@ -136,23 +137,19 @@ $(document).ready(function () {
                 }
             }, "json");
         } else if (func == "check") {
-            app = "<tr id=\"tr_header\"><th>course id</th><th>course name</th><th>total time</th>"
-                    + "<th>teacher name</th></tr>";
-            app += "</tr>";
+            app = "<tr id=\"tr_header\"><th>course id</th><th>course name</th>"
+                    + "<th>score</th></tr>";
             $("#table_empinfo").append(app);
             $.post("../QueryChief", {id: $("#search_input").val(), key: $("button.dropdown-toggle").text(), type: "choose"},
             function (data) {
                 if (data.result == "1") {
-                    for (i in data.users) {
-                        var c = data.users[i];
-                        app = "<tr id=\"tr_header\"><th>course id</th><th>course name</th><th>total time</th>" + "<th>teacher name</th></tr>";
-                        app += "<tr><td>" + c.id + "</td><td>" + c.name + "</td><td>" + c.total_time + "</td><td>" + c.teacher + "</td></tr>";
+                    for (i in data.course) {
+                        var c = data.course[i];
+                        app = "<tr><td>" + c.course_id + "</td><td>" + c.course_name + "</td><td>" + c.score + "</td></tr>";
                         $("#table_empinfo").append(app);
                     }
-                } else {
-                    alert(data.error);
                 }
-            });
+            }, "json");
         }
 
     });
@@ -208,7 +205,7 @@ $(document).ready(function () {
                 if (check != "un" && check != "mandatory" && check != "elective") {
                     alert("Must choose one from mandatory, elective or not chosen!");
                     err = 1;
-                } else if (check != "un") {
+                } else {
                     array += "{id:\"" + $(this).children("td:first").text() + "\", mandatory: \"" + check + "\"},";
                     num++;
                 }

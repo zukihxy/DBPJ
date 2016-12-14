@@ -30,3 +30,18 @@ function dropDown() {
         $("div.input-group-btn").attr("class", "input-group-btn");
     });
 }
+
+function changePass() {
+    $("#passwd_list").click(function() {
+        $(this).attr("class", "list-group-item active");
+        $("#rignt_div div,p").hide();
+        $("#passwd_form").show();
+        $("#passwd_form div").show();
+        $("#passwd_btn").click(function() {
+            var newpass = $("#passwd_input").val();
+            $.post("../ChangePassword", {password: newpass}, function(data){
+                alert(data);
+            }, "json");
+        })
+    });
+}

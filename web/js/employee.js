@@ -6,6 +6,7 @@
 var func = "";
 $(document).ready(function () {
     replaceInfo();
+    changePass();
     $("#right_div div").hide();
 
     $("#choose_list").click(function () {
@@ -17,21 +18,37 @@ $(document).ready(function () {
         var app = "<tr id=\"tr_header\"><th>course id</th><th>course name</th><th>total time</th>"
                 + "<th>teacher name</th></tr>";
         $("#table_empinfo").append(app);
-        $.post("../QueryPlan", {}, function (data) {
-            for (i in data.courses) {
-                var c = data.users[i];
-                app = "<tr><td>" + c.course_id + "</td><td>" + c.course_name + "</td><td>" + c.total_time + "</td>"
-                        + "<td>" + c.teacher_name + "</td><td>"
-                        + "<td><span class=\"glyphicon glyphicon-plus-sign table_icon\" data-type=\"add\" title=\"choose this course\"></span></td></tr>";
-                $("#table_empinfo").append(app);
-            }
-            $("span.glyphicon-plus-sign").each(function () {
-                $(this).click(function () {
-                    $(this).data("type", "delete");
-                    $(this).attr("class", "glyphicon glyphicon-minus-sign table_icon");
-                    $(this).attr("title", "drop this course");
+        $.post("../QueryEmployee", {type: "plan"}, function (data) {
+            if (data.result == "0") {
+                alert(data.message);
+            } else {
+                for (i in data.courses) {
+                    var c = data.courses[i];
+                    app = "<tr><td>" + c.course_id + "</td><td>" + c.course_name + "</td><td>" + c.total_time + "</td>"
+                            + "<td>" + c.teacher_name + "</td><td>"
+                    if (c.mandatory == "false") {
+                        if (c.choose == "false")
+                            app += "<td><span class=\"glyphicon glyphicon-plus-sign table_icon\" data-type=\"add\" title=\"choose this course\"></span></td></tr>";
+                        else if (c.choose == "true")
+                            app += "<td><span class=\"glyphicon glyphicon-minus-sign table_icon\" data-type=\"delete\" title=\"drop this course\"></span></td></tr>";
+
+                    }
+                    $("#table_empinfo").append(app);
+                }
+                $("span.glyphicon-plus-sign,span.glyphicon-minus-sign").each(function () {
+                    $(this).click(function () {
+                        if ($(this).attr("class") == "glyphicon glyphicon-plus-sign table_icon") {
+                            $(this).data("type", "delete");
+                            $(this).attr("class", "glyphicon glyphicon-minus-sign table_icon");
+                            $(this).attr("title", "drop this course");
+                        } else {
+                            $(this).data("type", "add");
+                            $(this).attr("class", "glyphicon glyphicon-plus-sign table_icon");
+                            $(this).attr("title", "choose this course");
+                        }
+                    });
                 });
-            });
+            }
         }, "json");
         func = "choose";
         $("#add_delete_table").show();
@@ -43,12 +60,12 @@ $(document).ready(function () {
         removeActive();
         $(this).attr("class", "list-group-item active");
         $("#table_empinfo").empty();
-        var app = "<tr><th>course id</th><th>score</th></tr>";
+        var app = "<tr><th>course id</th><th>course name</th><th>score</th></tr>";
         $("#table_empinfo").append(app);
-        $.post("../QueryScore", {}, function (data) {
+        $.post("../QueryEmployee", {type: "score"}, function (data) {
             for (i in data.courses) {
-                var c = data.users[i];
-                app = "<tr><td>" + c.course_id + "</td><td>" + c.score + "</td><td></tr>";
+                var c = data.courses[i];
+                app = "<tr><td>" + c.course_id + "</td><td>" + c.course_name + "</td><td>" + c.score + "</td><td></tr>";
                 $("#table_empinfo").append(app);
             }
         }, "json");
@@ -63,19 +80,21 @@ $(document).ready(function () {
         $("#table_empinfo").empty();
         var app = "<tr><th>course id</th><th>score</th></tr>";
         $("#table_empinfo").append(app);
-        $.post("../QueryScore", {}, function (data) {
+        $.post("../QueryEmployee", {type: "score"}, function (data) {
             for (i in data.courses) {
                 var c = data.users[i];
-                app = "<tr><td>" + c.course_id + "</td><td>" + c.score + "</td><td>"
-                        +"<td><span class=\"glyphicon glyphicon-repeat table_icon\" data-id=\""+c.course_id
-                        +"\" title=\"apply retest\"></span></td></tr>";
-                $("#table_empinfo").append(app);
+                if (c.need_retest == "true") {
+                    app = "<tr><td>" + c.course_id + "</td><td>" + c.score + "</td><td>"
+                            + "<td><span class=\"glyphicon glyphicon-repeat table_icon\" data-id=\"" + c.course_id
+                            + "\" title=\"apply retest\"></span></td></tr>";
+                    $("#table_empinfo").append(app);
+                }
             }
-            $("span.glyphicon-repeat").each(function() {
+            $("span.glyphicon-repeat").each(function () {
                 $(this).attr("class", "");
                 $(this).attr("title", "");
                 $(this).text("Applied");
-                $.post("../Retest", {id: $(this).data("id")}, function(data) {
+                $.post("../ApplyRetest", {course_id: $(this).data("id")}, function (data) {
                     alert(data.message);
                 }, "json");
             });
@@ -85,24 +104,20 @@ $(document).ready(function () {
     });
 
     $("#submit_icon").click(function () {
-        var ele = $(this);
         if (func == "choose") {
             var array = "[";
-            var num = 0;
             $("#table_empinfo tr:not(:first)").each(function () {
                 var type = $(this).children("td:last").children("span").eq(0).data("type");
-                if (type == "delete") {
-                    array += "{id:\"" + $(this).children("td:first").text() + "\"},";
-                }
+                if (typeof (type) != "undefined")
+                    array += "{course_id:\"" + $(this).children("td:first").text() + "\", choose: \"" + type + "\"},";
             });
-            if (num != 0)
-                array = array.substr(0, array.length - 1);
+            array = array.substr(0, array.length - 1);
             array += "]";
-            $.post("../Choose", {courses: array}, function (data) {
+            $.post("../ChooseCourse", {courses: array}, function (data) {
                 alert(data.message);
                 if (data.message == "succeed!") {
                     $("#table_empinfo").empty();
-                    ele.hide();
+                    $("#submit_table").hide();
                 }
             }, "json");
         }

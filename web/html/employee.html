@@ -25,6 +25,7 @@ and open the template in the editor.
                         <a href="#" class="list-group-item" id="choose_list">Choose course</a>
                         <a href="#" class="list-group-item" id="query_list">Query score</a>
                         <a href="#" class="list-group-item" id="apply_list">Apply retest</a>
+                        <a href="#" class="list-group-item" id="passwd_list">Change password</a>
                     </div>
                 </div>
                 <div id="right_div" class="wrapper_div">
@@ -39,9 +40,21 @@ and open the template in the editor.
                     <div class="inner" id="submit_table">
                         <span class="glyphicon glyphicon-ok" id="submit_icon"></span>
                     </div>
-                    
+                    <div class="inner" id="passwd_form">
+                        <div class="input-group">
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">New password </button>
+                            </div><!-- /btn-group -->
+                            <input type="text" class="form-control-me" id="passwd_input">
+                            <button type="button" class="btn btn-default" id="passwd_btn">Submit</button>
+                        </div><!-- /input-group -->
+                    </div>
                 </div>
             </div>
         </div>
+        <script type="text/javascript" src="../js/jquery.js"></script>
+        <script type="text/javascript" src="../js/jquery.cookie.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+        <script type="text/javascript" src="../js/employee.js"></script>
     </body>
 </html>

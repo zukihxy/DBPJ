@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -60,7 +61,7 @@ public class MakePlan extends HttpServlet {
             }
             JSONArray array = new JSONArray(courses);
             int len = array.length();
-            String message;
+            String message = "";
             Statement statement = connection.getConnection().createStatement();
             String query = "SELECT department FROM chief WHERE person_id='" + userid + "'";
             ResultSet rs = statement.executeQuery(query);
@@ -68,32 +69,88 @@ public class MakePlan extends HttpServlet {
             if (rs.next()) {
                 department = rs.getString("department");
             }
-            if (len <= 0){
-                result.put("message", "you must add a course to your plan");
+            rs.close();
+
+            ArrayList<String> employees = new ArrayList<>();
+            query = "SELECT person_id FROM employee WHERE department='" + department + "'";
+            ResultSet rs1 = statement.executeQuery(query);
+            while (rs1.next()) {
+                employees.add(rs1.getString("person_id"));
+            }
+            rs1.close();
+
+            if (len <= 0) {
+                result.put("message", "You must add a course to your plan");
                 out.print(result);
                 return;
             }
-            JSONObject item = array.getJSONObject(0);
             boolean m;
-            if (item.getString("mandatory").equals("madatory")) {
-                m = true;
-            } else {
-                m = false;
-            }
-            query = "INSERT INTO plan VALUES ('" + item.getString("id") + "'," + m + ",'" + department + "')";
+            boolean success = true;
             for (int i = 0; i < len; i++) {
-                item = array.getJSONObject(i);
-                if (item.getString("mandatory").equals("madatory")) {
-                    m = true;
+                JSONObject item = array.getJSONObject(i);
+                if (item.getString("mandatory").equals("mandatory") || item.getString("mandatory").equals("elective")) {
+                    m = item.getString("mandatory").equals("mandatory");
+                    query = "SELECT * FROM plan WHERE course_id='" + item.getString("id") + "' AND department='" + department + "'";
+                    ResultSet rs2 = statement.executeQuery(query);
+                    if (rs2.next()) {
+                        query = "UPDATE plan SET mandatory=" + m + " WHERE course_id='" + item.getString("id") + "' AND department='" + department + "'";
+                    } else {
+                        query = "INSERT INTO plan VALUES ('" + item.getString("id") + "'," + m + ",'" + department + "')";
+                    }
+                    if (statement.executeUpdate(query) == 0) {
+                        success = false;
+                        message += "Fail in adding course " + item.getString("id") + " to the plan \n";
+                    }
+
+                    if (m) {
+                        for (int j = 0; j < employees.size(); j++) {
+                            query = "SELECT * FROM attend WHERE course_id='" + item.getString("id") + "' AND employee_id='" + employees.get(j) + "'";
+                            ResultSet rs3 = statement.executeQuery(query);
+                            if (!rs3.next()) {
+                                query = "INSERT INTO attend (course_id,employee_id) VALUES ('" + item.getString("id") + "','" + employees.get(j) + "')";
+                                if (statement.executeUpdate(query) == 0) {
+                                    success = false;
+                                    message += "Fail in adding course " + item.getString("id") + " to the employee's plan \n";
+                                }
+
+                            }
+                        }
+                    }
+
                 } else {
-                    m = false;
+                    query = "SELECT * FROM plan WHERE course_id='" + item.getString("id") + "' AND department='" + department + "'";
+                    ResultSet rs2 = statement.executeQuery(query);
+                    if (rs2.next()) {
+                        query = "DELETE FROM plan WHERE course_id='" + item.getString("id") + "' AND department='" + department + "'";
+                        if (statement.executeUpdate(query) == 0) {
+                            success = false;
+                            message += "Fail in deleting course " + item.getString("id") + " from the plan \n";
+                        }
+
+                        for (int j = 0; j < employees.size(); j++) {
+                            query = "DELETE FROM attend WHERE course_id='" + item.getString("id") + "' AND employee_id='" + employees.get(j) + "'";
+                            if (statement.executeUpdate(query) == 0) {
+                                success = false;
+                                message += "Fail in deleting course " + item.getString("id") + " from the employee's plan \n";
+                            }
+                        }
+
+                    }
                 }
-                query += ",('" + item.getString("id") + "'," + m + ",'" + department + "')";
+                query = "SELECT * FROM plan WHERE course_id='" + item.getString("id") + "'";
+                ResultSet rs4 = statement.executeQuery(query);
+                if (rs4.next()) {
+                    query = "UPDATE course SET is_in_plan=1 WHERE course_id='" + item.getString("id") + "'";
+                } else {
+                    query = "UPDATE course SET is_in_plan=0 WHERE course_id='" + item.getString("id") + "'";
+                }
+                if (statement.executeUpdate(query) == 0) {
+                    success = false;
+                    message += "Fail! \n";
+                }
             }
-            if (statement.executeUpdate(query) != 0) {
-                message = "succeed!";
-            } else {
-                message = "fail!";
+            if (success) {
+                message = "Succeed!";
             }
             result.put("message", message);
             out.print(result);

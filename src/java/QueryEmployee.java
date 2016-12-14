@@ -2,16 +2,19 @@
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -45,19 +48,92 @@ public class QueryEmployee extends HttpServlet {
 		DBConnection connection = new DBConnection();
 		PrintWriter out = response.getWriter();
 		String type = request.getParameter("type");
-		String id = request.getCookies()[0].getValue();
 		JSONObject result = new JSONObject();
 		JSONArray array = new JSONArray();
-		try {
+		Cookie[] cookies = request.getCookies();
+		String userid = "";
+		for (Cookie cookie: cookies){
+			if(cookie.getName().equals("id")){
+				userid = cookie.getValue();
+			}
+		}
+		try {			
 			Statement statement = connection.getConnection().createStatement();
-			String query;
+			String query = "SELECT department FROM employee WHERE person_id='" + userid + "'"; 
+			ResultSet rs = statement.executeQuery(query);
+			String department = "";
+			if (rs.next()) department = rs.getString("department");
+			rs.close();
 			if (type.equals("plan")) {
-				query = "SELECT * FROM";
+				query = "SELECT * FROM plan,teacher,offer,course WHERE course.course_id = offer.course_id AND course.course_id=plan.course_id AND teacher.person_id=offer.teacher_id AND department='" + department + "'";
+				ResultSet rs1 = statement.executeQuery(query);
+				boolean success = false;
+				while (rs1.next()) {
+					success = true;
+					JSONObject item = new JSONObject ();
+					item.put("course_id", rs1.getString("plan.course_id"));
+					item.put("course_name", rs1.getString("course_name"));
+					item.put("teacher_name", rs1.getString("name"));
+                                        item.put("total_time", rs1.getString("total_time"));
+					if (rs1.getBoolean("mandatory"))
+						item.put("mandatory", "true");
+					else item.put("mandatory", "false");
+					array.put(item);
+				}
+                                int len = array.length();
+                                for (int i = 0; i < len; i++){
+                                    JSONObject item = array.getJSONObject(i);
+                                    query = "SELECT * FROM attend WHERE course_id='" + item.getString("course_id") + "'";
+                                    ResultSet rs2 = statement.executeQuery(query);
+                                    if (rs2.next()) item.put("choose", "true");
+                                    else item.put("choose", "false");
+                                }
+				if (success){
+                                        result.put("result","1");
+					result.put("message", "succeed!");
+					result.put("courses", array);
+				}
+				else {
+                                     result.put("department",department);
+                                    result.put("result","0");
+                                    result.put("message", "The plan has not been made yet!");
+                                }
 			}
 			else {
+				query = "SELECT * FROM course,attend WHERE course.course_id=attend.course_id AND employee_id='" + userid + "'";
+				ResultSet rs1 = statement.executeQuery(query);
+				boolean success = false;
+				while (rs1.next()) {
+					success = true;
+					JSONObject item = new JSONObject ();
+					item.put("course_id", rs1.getString("course.course_id"));
+					item.put("course_name", rs1.getString("course_name"));
+					if (rs1.getInt("exam_times") == 1 && !rs1.getBoolean("pass") && !rs1.getBoolean("apply_retest"))
+						item.put("need_retest", "true");
+					else item.put("need_retest", "false");
+					if (rs1.getInt("exam_times") > 0) {
+						item.put("score","" +  rs1.getInt("score"));
+						if (rs1.getBoolean("pass")) item.put("pass", "true");
+						else item.put("pass", "false");
+					}	
+					else {
+						item.put("score","no score yet");
+						item.put("pass", "no score yet");
+					}
+					array.put(item); 
+				}
+				if (success){
+					result.put("message", "succeed!");
+					result.put("courses", array);
+				}
+				else result.put("message", "You have no course");
 				
 			}
+			out.print(result);
 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

@@ -6,6 +6,7 @@
 var func = "";
 $(document).ready(function () {
     replaceInfo();
+    changePass();
     $("#right_div div").hide();
     if ($.cookie("new") == "1")
         $("#hello").text("There is something to be permitted!");
