@@ -26,7 +26,7 @@ function dropDown() {
             $("div.input-group-btn").attr("class", "input-group-btn");
     });
     $("div.input-group-btn ul.dropdown-menu[role=menu] li").click(function () {
-        $("button.dropdown-toggle").html($(this).children("a").eq(0).text()+" <span class=\"caret\"></span>");
+        $("button.dropdown-toggle").html($(this).children("a").eq(0).text()+"<span class=\"caret\"></span>");
         $("div.input-group-btn").attr("class", "input-group-btn");
     });
 }

@@ -101,22 +101,22 @@ $(document).ready(function () {
             function (data) {
                 if (data.result == "1") {
                     var app = "";
+                    app = "<tr id=\"tr_header\"><th>id</th>"
+                            + "<th>salary</th><th>addition</th><th>work_addr</th><th>work_age</th><th></th></tr>";
+                    $("#table_empinfo").append(app);
                     for (i in data.users) {
                         var user = data.users[i];
-                        if (user.person_id == $("#search_input").val()) {
-                            app = "<tr id=\"tr_header\"><th>id</th>"
-                                    + "<th>salary</th><th>addition</th><th>work_addr</th><th>work_age</th><th></th></tr>";
-                            app += "<tr><td>" + user.person_id + "</td>";
-                            app += "<td><input style=\"width:100px\" type=\"text\" value=\"" + user.salary
-                                    + "\" /></td><td><input style=\"width:100px\" type=\"text\" value=\"" + user.addition
-                                    + "\" /></td><td><input style=\"width:100px\" type=\"text\" value=\"" + user.work_addr
-                                    + "\" /></td><td><input style=\"width:100px\" type=\"text\" value=\"" + user.work_age
-                                    + "\" /></td><td><span class=\"glyphicon glyphicon-ok-sign table_icon\" title=\"update complete\"></span></td>";
-                            app += "</tr>";
-                        }
+                        app = "<tr><td>" + user.person_id + "</td>";
+                        app += "<td><input style=\"width:100px\" type=\"text\" value=\"" + user.salary
+                                + "\" /></td><td><input style=\"width:100px\" type=\"text\" value=\"" + user.addition
+                                + "\" /></td><td><input style=\"width:100px\" type=\"text\" value=\"" + user.work_addr
+                                + "\" /></td><td><input style=\"width:100px\" type=\"text\" value=\"" + user.work_age
+                                + "\" /></td><td><span class=\"glyphicon glyphicon-ok-sign table_icon\" title=\"update complete\"></span></td>";
+                        app += "</tr>";
+                        $("#table_empinfo").append(app);
                     }
 
-                    $("#table_empinfo").append(app);
+
                     $("span.glyphicon-ok-sign").click(function () {
                         var id = $(this).parent().siblings().eq(0).text();
                         var salary = $(this).parent().siblings().eq(1).children().eq(0).val();

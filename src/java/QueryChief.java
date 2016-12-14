@@ -94,6 +94,10 @@ public class QueryChief extends HttpServlet {
 					String id = request.getParameter("id");
 					query = "SELECT * FROM employee WHERE person_id='" + id + "' AND department='" + department + "'";
 				}
+                                else if (key.equals("Name")){
+					String name = request.getParameter("id");
+					query = "SELECT * FROM employee WHERE name='" + name + "' AND department='" + department + "'";
+				}
 				else {
                                     query = "SELECT * FROM employee WHERE department='" + department + "'";
                                 }
@@ -110,6 +114,7 @@ public class QueryChief extends HttpServlet {
 					array.put(item);
 				}
 				result.put("result", "1");
+                                result.put("key",key);
 				result.put("users", array);	
 			}
 			else {
