@@ -4,10 +4,9 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 */
 /* 
-    Created on : 2016-12-10, 18:38:16
+    Created on : 2016-12-11, 16:59:52
     Author     : hxy_zuki
 */
-
 .navbar-right-me {
     float: right!important;
     margin-right: 0px;
@@ -19,11 +18,17 @@ and open the template in the editor.
     margin-left: 750px;
 }
 
+#pay_icon {
+    position: relative;
+    margin-top: 50px;
+    margin-left: 750px;
+}
+
 .input-group .form-control-me {
     position: relative;
     z-index: 2;
     float: left;
-    width: 200px;
+    width: 300px;
     height: 34px;
     margin-bottom: 0;
 }

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Trainning System</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="../css/admin.css">
+        <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="../css/common.css">
+    </head>
+    <body>
+        <div id="content">
+            <p class="navbar-text navbar-right-me">
+                <span id="info_id" class="info">id</span><a href="login.html" onclick="logout()" id="log_out">log out</a>
+            </p>
+
+            <div id="main">
+                <div class="wrapper_div"  id="left_div">
+                    <div class="list-group" id="function_list">
+                        <a class="list-group-item" id="permit_list">Permit updating</a>
+                        <a class="list-group-item" id="add_user_list">Add user</a>
+                        <a class="list-group-item" id="delete_user_list">Delete user</a>
+                        <a class="list-group-item" id="update_user_list">Update user</a>
+                        <a class="list-group-item" id="search_emp_list">Search employee by id</a>
+                        <a href="#" class="list-group-item" id="passwd_list">Change password</a>
+                    </div>
+                </div>
+                <div id="right_div" class="wrapper_div">
+                    <p id="hello">
+                        Hello! Welcome to the system!
+                    </p>
+                    <div class="inner" id="search_form">
+                        <div class="input-group">
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">ID</button>
+                            </div><!-- /btn-group -->
+                            <input type="text" class="form-control-me" id="search_input">
+                            <button type="button" class="btn btn-default" id="search_btn">Search</button>
+                        </div><!-- /input-group -->
+                    </div>
+                    <div class="inner" id="passwd_form">
+                        <div class="input-group">
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">New password</button>
+                            </div><!-- /btn-group -->
+                            <input type="text" class="form-control-me" id="passwd_input">
+                            <button type="button" class="btn btn-default" id="passwd_btn">Submit</button>
+                        </div><!-- /input-group -->
+                    </div>
+                    <div class="inner" id="add_delete_table">
+                        <table class="table" id="table_empinfo">
+                        </table>                        
+                    </div>
+                    <div class="inner" id="submit_table">
+                        <span class="glyphicon glyphicon-ok" id="submit_icon"></span>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript" src="../js/jquery.js"></script>
+        <script type="text/javascript" src="../js/jquery.cookie.js"></script>
+        <script type="text/javascript" src="../js/common.js"></script>
+        <script type="text/javascript" src="../js/admin.js"></script>
+    </body>
+</html>
