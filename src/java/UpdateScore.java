@@ -49,8 +49,11 @@ public class UpdateScore extends HttpServlet {
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // TODO Auto-generated method stub
+<<<<<<< HEAD
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
+=======
+>>>>>>> a52860a1daa78ffdad8808c85d0ea7bf016594f0
         DBConnection connection = new DBConnection();
         PrintWriter out = response.getWriter();
         String scores = request.getParameter("score");
@@ -90,6 +93,7 @@ public class UpdateScore extends HttpServlet {
                     success = false;
                     message += "Fail in upload score date ";
                 }
+<<<<<<< HEAD
                 query = "SELECT count(pass) FROM attend WHERE employee_id='" + item.getString("eid") + "' AND pass=" + false;
                 ResultSet rs1 = statement.executeQuery(query);
                 if (rs1.next()) {
@@ -109,6 +113,8 @@ public class UpdateScore extends HttpServlet {
                     }
 
                 }
+=======
+>>>>>>> a52860a1daa78ffdad8808c85d0ea7bf016594f0
             }
 
             if (success) {

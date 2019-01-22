@@ -98,7 +98,11 @@ $(document).ready(function () {
         $("#add_delete_table").show();
         $("#table_empinfo").empty();
         if (func == "update") {
+<<<<<<< HEAD
             $.post("../QueryChief", {id: $("#search_input").val(), key: $("#key_btn").text(), type: "employee"},
+=======
+            $.post("../QueryChief", {id: $("#search_input").val(), key: $("button.dropdown-toggle").text(), type: "employee"},
+>>>>>>> a52860a1daa78ffdad8808c85d0ea7bf016594f0
             function (data) {
                 if (data.result == "1") {
                     var app = "";
@@ -235,7 +239,11 @@ $(document).ready(function () {
             });
             array = array.substr(0, array.length - 1);
             array += "]";
+<<<<<<< HEAD
             //alert(array);
+=======
+            alert(array);
+>>>>>>> a52860a1daa78ffdad8808c85d0ea7bf016594f0
             $.post("../AddEmployee", {users: array}, function (data) {
                 alert(data.message);
                 $("#table_empinfo").empty();

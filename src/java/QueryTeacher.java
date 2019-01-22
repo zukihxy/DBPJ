@@ -46,8 +46,11 @@ public class QueryTeacher extends HttpServlet {
      * response)
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+<<<<<<< HEAD
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
+=======
+>>>>>>> a52860a1daa78ffdad8808c85d0ea7bf016594f0
         DBConnection connection = new DBConnection();
         PrintWriter out = response.getWriter();
         String type = request.getParameter("type");
@@ -165,6 +168,7 @@ public class QueryTeacher extends HttpServlet {
                     result.put("message", "No one to update or this is not your course");
                 }
             }
+<<<<<<< HEAD
             else if (type.equals("name")){
                 String id = request.getParameter("cid");
                 boolean offer = false;
@@ -187,6 +191,8 @@ public class QueryTeacher extends HttpServlet {
                     result.put("message", "You can't get the name list for the course not offered by you");
                 }                
             }
+=======
+>>>>>>> a52860a1daa78ffdad8808c85d0ea7bf016594f0
             out.print(result);
         } catch (SQLException e) {
             // TODO Auto-generated catch block

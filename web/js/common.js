@@ -26,12 +26,17 @@ function dropDown() {
             $("div.input-group-btn").attr("class", "input-group-btn");
     });
     $("div.input-group-btn ul.dropdown-menu[role=menu] li").click(function () {
+<<<<<<< HEAD
         $("button.dropdown-toggle").html($(this).children("a").eq(0).text() + "<span class=\"caret\"></span>");
+=======
+        $("button.dropdown-toggle").html($(this).children("a").eq(0).text()+"<span class=\"caret\"></span>");
+>>>>>>> a52860a1daa78ffdad8808c85d0ea7bf016594f0
         $("div.input-group-btn").attr("class", "input-group-btn");
     });
 }
 
 function changePass() {
+<<<<<<< HEAD
     $("#passwd_list").click(function () {
         removeActive();
         $("#add_delete_table").empty();
@@ -46,5 +51,21 @@ function changePass() {
                 alert(data.message);
             }, "json");
         });
+=======
+    $("#passwd_list").click(function() {
+        removeActive();
+        $("#add_delete_table").empty();
+        $(this).attr("class", "list-group-item active");
+        $("#rignt_div div").hide();
+        $("#hello").hide();
+        $("#passwd_form").show();
+        $("#passwd_form div").show();
+        $("#passwd_btn").click(function() {
+            var newpass = $("#passwd_input").val();
+            $.post("../ChangePassword", {password: newpass}, function(data){
+                alert(data.message);
+            }, "json");
+        })
+>>>>>>> a52860a1daa78ffdad8808c85d0ea7bf016594f0
     });
 }

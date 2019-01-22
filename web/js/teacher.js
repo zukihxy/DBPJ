@@ -74,7 +74,10 @@ $(document).ready(function () {
         $("#submit_table").show();
         $("#search_form").show();
         $("#search_form div").show();
+<<<<<<< HEAD
         $("#search_btn1").hide();
+=======
+>>>>>>> a52860a1daa78ffdad8808c85d0ea7bf016594f0
         $("#table_empinfo").empty();
         func = $(this).data("func");
         $("#add_delete_table").show();
@@ -111,6 +114,7 @@ $(document).ready(function () {
         $("#hello").hide();
     });
 
+<<<<<<< HEAD
     $("#name_list").click(function () {
         $("#right_div div").hide();
         removeActive();
@@ -125,6 +129,8 @@ $(document).ready(function () {
         $("#add_delete_table").show();
     });
 
+=======
+>>>>>>> a52860a1daa78ffdad8808c85d0ea7bf016594f0
     $("#submit_icon").click(function () {
         if (func == "upload" || func == "update") {
             var array = "[";
@@ -133,8 +139,13 @@ $(document).ready(function () {
                 var id = $(this).children().eq(0).text();
                 var eid = $(this).children().eq(1).text();
                 var check = $(this).children("td:last").children().children().children(":checked").val();
+<<<<<<< HEAD
                 num++;
                 array += "{cid:\"" + id + "\",eid:\"" + eid + "\", score:\"" + check + "\"},";
+=======
+                    num++;
+                    array += "{cid:\"" + id + "\",eid:\"" + eid + "\", score:\"" + check + "\"},";
+>>>>>>> a52860a1daa78ffdad8808c85d0ea7bf016594f0
             });
             if (num != 0)
                 array = array.substr(0, array.length - 1);
@@ -164,6 +175,7 @@ $(document).ready(function () {
                 alert(data.message);
                 $("#table_empinfo").empty();
             }, "json");
+<<<<<<< HEAD
         } else if (func == "name") {
             $.post("../QueryTeacher", {type: "retest"}, function (data) {
                 for (i in data.users) {
@@ -173,6 +185,8 @@ $(document).ready(function () {
                     $("#table_empinfo").append(app);
                 }
             }, "json");
+=======
+>>>>>>> a52860a1daa78ffdad8808c85d0ea7bf016594f0
         }
 
     });
@@ -188,6 +202,7 @@ $(document).ready(function () {
                 $("#table_empinfo").append(app);
                 for (i in data.users) {
                     var item = data.users[i];
+<<<<<<< HEAD
                     if (func == "name") {
                         app = "<tr><td>" + item.eid + "</td>";
                     } else {
@@ -218,6 +233,15 @@ $(document).ready(function () {
                 for (i in data.eid) {
                     var item = data.eid[i];
                     app = "<tr><td>" + item.employee_id + "</td>";
+=======
+                    app = "<tr><td>" + item.cid + "</td><td>" + item.eid + "</td>";
+                    app += "<td><div class=\"radio\"><label><input type=\"radio\" name=\"optionsRadios" + i + "\" value=\"true\">pass";
+                    if (func == "update")
+                        app += "</label></div><div class=\"radio\"><label><input type=\"radio\" name=\"optionsRadios" + i + "\" value=\"false\" checked>fail";
+                    else if (func == "upload")
+                        app += "</label></div><div class=\"radio\"><label><input type=\"radio\" name=\"optionsRadios" + i + "\" value=\"false\">fail";                        
+                    app += "</label></div></td></tr>";
+>>>>>>> a52860a1daa78ffdad8808c85d0ea7bf016594f0
                     $("#table_empinfo").append(app);
                 }
             } else {

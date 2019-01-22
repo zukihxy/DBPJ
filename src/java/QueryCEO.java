@@ -45,8 +45,11 @@ public class QueryCEO extends HttpServlet {
      * response)
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+<<<<<<< HEAD
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
+=======
+>>>>>>> a52860a1daa78ffdad8808c85d0ea7bf016594f0
         DBConnection connection = new DBConnection();
         PrintWriter out = response.getWriter();
         String key = request.getParameter("key");
@@ -135,7 +138,11 @@ public class QueryCEO extends HttpServlet {
             item.put("name", rs.getString("name"));
             item.put("sex", rs.getString("sex"));
             item.put("salary", rs.getInt("salary"));
+<<<<<<< HEAD
             item.put("addition", rs.getString("addition"));
+=======
+            item.put("addition", rs.getFloat("addition"));
+>>>>>>> a52860a1daa78ffdad8808c85d0ea7bf016594f0
             item.put("work_addr", rs.getString("work_addr"));
             item.put("work_age", rs.getInt("work_age"));
             item.put("department", rs.getString("department"));
@@ -163,7 +170,11 @@ public class QueryCEO extends HttpServlet {
             item.put("sex", rs.getString("sex"));
             item.put("phone", rs.getFloat("phone"));
             item.put("department", rs.getString("department"));
+<<<<<<< HEAD
             item.put("email", rs.getString("email"));
+=======
+            item.put("email", rs.getInt("email"));
+>>>>>>> a52860a1daa78ffdad8808c85d0ea7bf016594f0
             item.put("work_addr", rs.getString("work_addr"));
             array.put(item);
         }
@@ -197,6 +208,7 @@ public class QueryCEO extends HttpServlet {
                 item.put("name", rs.getString("course_name"));
                 item.put("total_time", rs.getString("total_time"));
                 item.put("employee_id", rs.getString("employee_id"));
+<<<<<<< HEAD
                 if (rs.getInt("exam_times") == 0) {
                     item.put("score", "no score yet");
                 } else {
@@ -205,6 +217,14 @@ public class QueryCEO extends HttpServlet {
                     } else {
                         item.put("score", "fail");
                     }
+=======
+                if (rs.getInt("exam_times") == 0)
+                    item.put("score", "no score yet"); 
+                else {
+                	if (rs.getBoolean("pass"))
+                		item.put("score", "pass");
+                	else item.put("score", "fail");
+>>>>>>> a52860a1daa78ffdad8808c85d0ea7bf016594f0
                 }
                 array.put(item);
             }
@@ -219,10 +239,16 @@ public class QueryCEO extends HttpServlet {
                     item.put("total_time", rs1.getString("total_time"));
                     array.put(item);
                 }
+<<<<<<< HEAD
                 result.put("score", "false");
             } else {
                 result.put("score", "true");
             }
+=======
+                result.put("score","false");
+            }
+            else result.put("score","true");
+>>>>>>> a52860a1daa78ffdad8808c85d0ea7bf016594f0
         }
         if (success) {
             result.put("result", "1");

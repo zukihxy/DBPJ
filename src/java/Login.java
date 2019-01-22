@@ -41,8 +41,11 @@ public class Login extends HttpServlet {
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // TODO Auto-generated method stub
+<<<<<<< HEAD
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
+=======
+>>>>>>> a52860a1daa78ffdad8808c85d0ea7bf016594f0
         String id = request.getParameter("id");
         String password = request.getParameter("password");
         DBConnection connection = new DBConnection();

@@ -47,8 +47,11 @@ public class MakePlan extends HttpServlet {
      * response)
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+<<<<<<< HEAD
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
+=======
+>>>>>>> a52860a1daa78ffdad8808c85d0ea7bf016594f0
         DBConnection connection = new DBConnection();
         PrintWriter out = response.getWriter();
         String courses = request.getParameter("courses");
@@ -131,7 +134,14 @@ public class MakePlan extends HttpServlet {
 
                         for (int j = 0; j < employees.size(); j++) {
                             query = "DELETE FROM attend WHERE course_id='" + item.getString("id") + "' AND employee_id='" + employees.get(j) + "'";
+<<<<<<< HEAD
                             statement.executeUpdate(query);
+=======
+                            if (statement.executeUpdate(query) == 0) {
+                                success = false;
+                                message += "Fail in deleting course " + item.getString("id") + " from the employee's plan \n";
+                            }
+>>>>>>> a52860a1daa78ffdad8808c85d0ea7bf016594f0
                         }
 
                     }

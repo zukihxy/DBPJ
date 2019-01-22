@@ -44,8 +44,11 @@ public class Approve extends HttpServlet {
      * response)
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+<<<<<<< HEAD
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
+=======
+>>>>>>> a52860a1daa78ffdad8808c85d0ea7bf016594f0
         DBConnection connection = new DBConnection();
         PrintWriter out = response.getWriter();
         String course_id = request.getParameter("course_id");

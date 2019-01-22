@@ -1,4 +1,8 @@
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> a52860a1daa78ffdad8808c85d0ea7bf016594f0
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -19,9 +23,14 @@ import org.json.JSONObject;
  */
 @WebServlet("/ChangePassword")
 public class ChangePassword extends HttpServlet {
+<<<<<<< HEAD
 
     private static final long serialVersionUID = 1L;
 
+=======
+	private static final long serialVersionUID = 1L;
+       
+>>>>>>> a52860a1daa78ffdad8808c85d0ea7bf016594f0
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -30,6 +39,7 @@ public class ChangePassword extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
+<<<<<<< HEAD
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
      * response)
@@ -75,5 +85,45 @@ public class ChangePassword extends HttpServlet {
             e.printStackTrace();
         }
     }
+=======
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		DBConnection connection = new DBConnection();
+		PrintWriter out = response.getWriter();
+		String password = request.getParameter("password");
+		JSONObject result = new JSONObject();
+		Cookie[] cookies = request.getCookies();
+		String userid = "";
+		for (Cookie cookie: cookies){
+			if(cookie.getName().equals("id")){
+				userid = cookie.getValue();
+			}
+		}
+		
+		try {
+			Statement statement = connection.getConnection().createStatement();
+			String query = "UPDATE person SET password='" + password + "' WHERE person_id='" + userid + "'";
+			if (statement.executeUpdate(query) == 0) result.put("message", "Fail!");
+			else result.put("message", "Succeed!");
+			out.print(result);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+>>>>>>> a52860a1daa78ffdad8808c85d0ea7bf016594f0
 
 }
